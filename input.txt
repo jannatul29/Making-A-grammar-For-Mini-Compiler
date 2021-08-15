@@ -1,0 +1,19 @@
+*start#stdio!p#
+*start#stdlib!p#
+int main()[
+    int a,b,c $
+    a=b+c $
+
+   for(a=0 . a<10 . a++)[
+      b=b+10 $
+      for( a=0 .a<10 . a++)[
+         c=c+1 $
+         if(b>c)[
+           d=D+2 $
+         ]
+          else [
+           c=c-1 $
+          ]
+        ]
+     ]
+ ]

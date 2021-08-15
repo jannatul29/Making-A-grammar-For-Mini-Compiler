@@ -1,0 +1,76 @@
+grammar prog ;
+root : (headerf)+ mfunction (function)* ;
+
+headerf : '*' 'start' '#' dtype '!p' '#' ;
+dtype :  'stdio'
+       | 'stdlib'
+       | 'string' ;
+
+
+function :vtype (LET)+ '(' (vtype LET)? ')' mainblock ;
+
+mfunction : vtype 'main' '(' ')' mainblock ;
+
+
+mainblock : '[' mainblockD ']' ;
+mainblockD : statement
+            | forstatement
+            | ifstatement
+            | whilestatement
+            | callstatement ;
+
+
+statement : (dec)+ (expr)* ;
+forstatement : (dec)+ (expr)* foR (expr)* ;
+ifstatement  : (dec)+ (expr)* ifBlock ;
+whilestatement : (dec)+ (expr)* whilE (expr)*  ;
+callstatement  : (dec)+ (expr)* funC ;
+
+foR : 'for' '(' exp '.' exp '.' LET incdec ')' forblock ;
+whilE : 'while' '(' exp ')'  whileBlock ;
+funC : (LET)+ '(' (term)? ')' '$' ;
+forN : 'for' '(' exp '.' exp '.' LET incdec ')' nestedFor ;
+
+forblock : '[' forblockD ']' ;
+forblockD : (expr)* forN (expr)*
+           | (expr)* ifBlock ;
+
+whileBlock :'[' whileBlockD ']' ;
+whileBlockD : (expr)* ifBlock ;
+
+nestedFor : '[' nestedForD ']' ;
+nestedForD : (expr)* ifBlock ;
+
+
+ifBlock : 'if' '(' exp ')' ifElseBlock 'else' ifElseBlock ;
+ifElseBlock : '[' ifElseBlockD ']' ;
+ifElseBlockD: (expr)+ ;
+
+
+exp :   exp binary exp
+      | exp relational exp
+      | exp logical exp
+      | '(' exp ')'
+      | term operand term
+      | term ;
+
+dec : vtype (LET (',')?)+ '$' ;
+expr : exp '$' ;
+binary     : '+' | '-' | '*' | '/' ;
+relational : '=' | '!=' | '>' | '>=' | '<' | '<=' | '==' ;
+logical    : '&' | '|' ;
+
+
+
+
+incdec : '++'| '--' ;
+
+operand   : '+=' | '-=' ;
+
+term : LET | DIG ;
+DIG :[0-9]+ ;
+LET : [a-zA-Z]+ ;
+vtype : 'int' | 'bool' | 'char' | 'float' ;
+
+
+WS : [ \t\r\n]+ -> skip ;

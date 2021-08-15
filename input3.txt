@@ -1,0 +1,12 @@
+*start#stdio!p#
+*start#stdlib!p#
+
+int math(int a)[
+  m=a+10 $ ]
+
+int main()[
+    int a,b,c $
+    a=b+c $
+
+math( a ) $
+]
